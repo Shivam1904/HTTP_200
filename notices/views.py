@@ -25,7 +25,7 @@ class NoticeList(LoginRequiredMixin, generic.View):
 		except EmptyPage:
 			# If page is out of range (e.g. 9999), deliver last page of results.
 			notices = paginator.page(paginator.num_pages)
-		return render_to_response(template, {"notices": notices})
+		return render(request, template, {"notices": notices})
 
 class NoticeShow(LoginRequiredMixin, generic.View):
 	def get(self, request, pk=None):
@@ -88,12 +88,23 @@ class NoticeCreateView(LoginRequiredMixin, GroupRequiredMixin, CreateView):
 
 class NoticeUpdateView(LoginRequiredMixin,UpdateView):
 	model = Notice
-	success_url = reverse_lazy('server_list')
+	form_class = NoticeCreateForm
+	template_name = 'notices/notice_edit.html'
+	success_url = reverse_lazy('notice_list')
 
+	# to ensure that a user can not edit someone else's profile
+	# def get_object(self, queryset=None): 
+	# 	faculty = FacultyDetail.objects.get(user__id = self.request.user.id)
+	# 	return Notice.objects.filter(faculty=faculty)[0]
+	def get_queryset(self):
+		base_qs = super(NoticeUpdateView, self).get_queryset()
+		faculty = FacultyDetail.objects.get(user__id = self.request.user.id)
+		return base_qs.filter(faculty=faculty)
 
+	
 class NoticeDeleteView(LoginRequiredMixin,DeleteView):
 	model = Notice
-	success_url = reverse_lazy('server_list')
+	success_url = reverse_lazy('notice_list')
 	pass
 
 def my_custom_permission_denied_view(self, request):
