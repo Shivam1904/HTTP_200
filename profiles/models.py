@@ -46,14 +46,6 @@ class StudentDetail(models.Model):
 		(MT, 'Manufacturing Technology'),
 		)
 	user = models.OneToOneField(User)
-	univ_roll_no = models.PositiveIntegerField()
-	contact_no = models.PositiveIntegerField(null = True,editable = True)
-	father_name = models.CharField(max_length = 200, null = True)
-	mother_name = models.CharField(max_length = 200, null = True)
-	address = models.CharField(max_length = 500, null = True,editable = True)
-	course = models.CharField(max_length = 3,
-		choices = COURSE,
-		default = BTech)
 	year = models.PositiveIntegerField(default = None, null = True)
 	branch = models.CharField(
 		max_length = 5,
@@ -61,6 +53,15 @@ class StudentDetail(models.Model):
 		default = None,
 		null = True
 		)
+	univ_roll_no = models.PositiveIntegerField(blank=True, null = True,editable = True)
+	contact_no = models.PositiveIntegerField(blank=True, null = True,editable = True)
+	father_name = models.CharField(max_length = 200, blank=True, null = True,editable = True)
+	mother_name = models.CharField(max_length = 200, blank=True, null = True,editable = True)
+	address = models.CharField(max_length = 500, blank=True, null = True,editable = True)
+	course = models.CharField(max_length = 5,
+		choices = COURSE,
+		default = None,
+		null = True)
 	display_to_others = models.BooleanField(default=False)
 	# relevent_last_seen = models.DateTimeField(auto_now_add=True,editable = True)
 	# academics_last_seen = models.DateTimeField(auto_now_add=True,editable = True)
