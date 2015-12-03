@@ -46,14 +46,6 @@ class StudentDetail(models.Model):
 		(MT, 'Manufacturing Technology'),
 		)
 	user = models.OneToOneField(User)
-	univ_roll_no = models.PositiveIntegerField()
-	contact_no = models.PositiveIntegerField(null = True,editable = True)
-	father_name = models.CharField(max_length = 200, null = True)
-	mother_name = models.CharField(max_length = 200, null = True)
-	address = models.CharField(max_length = 500, null = True,editable = True)
-	course = models.CharField(max_length = 3,
-		choices = COURSE,
-		default = BTech)
 	year = models.PositiveIntegerField(default = None, null = True)
 	branch = models.CharField(
 		max_length = 5,
